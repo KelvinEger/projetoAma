@@ -27,11 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
 	echo $form->field($model, 'prod_quantidade_ideal')->textInput(['type' => 'number', 'min' => 0]);
 	echo $form->field($model, 'prod_quantidade_minima')->textInput(['type' => 'number', 'min' => 0]);
 	echo $form->field($model, 'cate_codigo')->dropDownList($aArrayAux);
-	echo $form->field($model, 'situacao')->dropDownList(
-			  [
-				  1 => 'Ativo',
-				  2 => 'Inativo'
-	]);
+	echo $form->field($model, 'situacao')->dropDownList([ 1 => 'Ativo',
+																			2 => 'Inativo'
+																		 ]);
 
 	echo Html::submitButton('Cadastrar', ['class' => 'btn btn-success']);
 	echo '&nbsp';

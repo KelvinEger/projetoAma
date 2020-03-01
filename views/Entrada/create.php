@@ -17,20 +17,25 @@ $this->params['breadcrumbs'][] = $this->title;
 	<div class="container row">
 
 		<?php
-		$form            = ActiveForm::begin(['method' => 'post']);
-		$oEntrada        = new Entrada();
-		$oEntradaProduto = new EntradaProduto();
+		$form     = ActiveForm::begin(['method' => 'post']);
+		$oEntrada = new Entrada();
+		
 		echo '<br>';
 		echo Tabs::widget([
 			'items' => [
 				[
 					'label' => 'Informações da entrada',
-					'content' => $this->render('informacoes_entrada.php', ['form' => $form, 'oEntrada' => $oEntrada]),
+					'content' => $this->render('informacoes_entrada.php', ['form'     => $form, 
+																							 'oEntrada' => $oEntrada
+																						   ]),
 					'active' => true
 				],
 				[
 					'label' => 'Produtos da entrada',
-					'content' => $this->render('produtos.php', ['form' => $form, 'oEntradaProduto' => $oEntradaProduto]),
+					'content' => $this->render('produtos.php', ['form'            => $form, 
+																			  'dataProvider'    => $dataProvider,
+																			  'searchModel'     => $searchModel
+																			 ]),
 				],
 		]]);
 		?>

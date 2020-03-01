@@ -60,22 +60,20 @@ class ProdutoController extends Controller {
 	 * @return mixed
 	 */
 	public function actionCreate() {
-		$model = new Produto();
+		$oModelProduto = new Produto();
 
-		if ($model->load(Yii::$app->request->post())) {			
-			$model->setAttribute('prod_codigo', $this->getMaxProduto()['id'] + 1); //Fazendo auto-increment manualmente
+		if ($oModelProduto->load(Yii::$app->request->post())) {			
+			$oModelProduto->setAttribute('prod_codigo', $this->getMaxProduto()['id'] + 1); // Incrementando manualmente
 			
-			if ($model->save()) {
-				return $this->redirect(['view', 'id' => $model->prod_codigo]);
+			if ($oModelProduto->save()) {
+				return $this->redirect(['view', 'id' => $oModelProduto->prod_codigo]);
 			} 
 			else {
-				echo var_dump($model->getErrors());
+				echo var_dump($oModelProduto->getErrors());
 			}
 		}
 
-		return $this->render('create', [
-						'model' => $model,
-		]);
+		return $this->render('create', [ 'model' => $oModelProduto ]);
 	}
 
 	/**

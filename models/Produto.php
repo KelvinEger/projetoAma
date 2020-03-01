@@ -32,7 +32,7 @@ class Produto extends ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			 [['prod_codigo', 'prod_descricao', 'cate_codigo', 'situacao', 'prod_quantidade_ideal', 'prod_quantidade_minima'], 'required', 'message' => 'Campo obrigatório'],
+			 [['prod_codigo', 'prod_descricao', 'situacao', 'prod_quantidade_ideal', 'prod_quantidade_minima'], 'required', 'message' => 'Campo obrigatório'],
 			 [['prod_codigo', 'cate_codigo', 'situacao', 'prod_quantidade_ideal', 'prod_quantidade_minima'], 'integer'],
 			 [['prod_descricao'], 'string', 'max' => 40],
 			 [['prod_codigo'], 'unique'],
@@ -45,11 +45,11 @@ class Produto extends ActiveRecord {
 	 */
 	public function attributeLabels() {
 		return [
-			 'prod_codigo' => 'Produto',
-			 'cate_codigo' => 'Categoria',
-			 'prod_descricao' => 'Descrição',
-			 'situacao' => 'Situacao',
-			 'prod_quantidade_ideal' => 'Quantidade Ideal',
+			 'prod_codigo'            => 'Produto',
+			 'cate_codigo'            => 'Categoria',
+			 'prod_descricao'         => 'Nome do Produto',
+			 'situacao'               => 'Situacao',
+			 'prod_quantidade_ideal'  => 'Quantidade Ideal',
 			 'prod_quantidade_minima' => 'Quantidade Mínima',
 		];
 	}
@@ -59,6 +59,22 @@ class Produto extends ActiveRecord {
 	 */
 	public function getCategorias() {
 		return $this->hasMany(Categoria::class, ['cate_codigo' => 'cate_codigo']);
+	}
+	
+	/**
+	 * Formata o array para ser utilizado no Widget 'AutoComplete'
+	 * @param array $aCondicao
+	 * @return array
+	 */
+	public function getProdutosOrganizados($aCondicao = []) {
+		$aProdutos = parent::findAll($aCondicao);
+		$aRetorno  = array();
+
+		foreach($aProdutos as $obj) {
+			$aRetorno[] = $obj->prod_descricao;
+		}
+		
+		return $aRetorno;
 	}
 	
 }

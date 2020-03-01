@@ -5,7 +5,9 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use app\models\EntradaProduto;
 use app\models\Entrada;
+use app\models\Produto;
 
 class EntradaController extends Controller {
 
@@ -14,25 +16,35 @@ class EntradaController extends Controller {
 	 */
 	public function behaviors() {
 		return [
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['POST'],
+			'verbs'=>[
+				'class'=>VerbFilter::className(),
+				'actions'=>[
+					'delete'=>['POST'],
 				],
 			],
 		];
 	}
-
+	
+	/**
+	 * Renderiza a página index
+	 * @return type
+	 */
 	public function actionIndex() {
 		return $this->render('index');
 	}
-	
-	public function actionCreate() {
-		$model = new Entrada();
-		
-		var_dump($model->load(Yii::$app->request->post()));die;
-		return $this->render('create');
-	}
 
+	/**
+	 * Renderiza a página de cadastro de entradas
+	 * @return type
+	 */
+	public function actionCreate() {
+		$searchModel = new EntradaProduto();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		
+		return $this->render('create', [
+				'searchModel'  => $searchModel,
+				'dataProvider' => $dataProvider
+		]);
+	}
 
 }

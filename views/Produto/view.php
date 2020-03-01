@@ -36,8 +36,8 @@ $this->params['breadcrumbs'][] = $model->prod_descricao;
 				'value' => $model::NOME_SITUACAO[$model->situacao]
 			],
 			[
-				'attribute' => 'prod_quantidade_minima',
-				'value' => $model->prod_quantidade_minima
+				'attribute' => 'prod_quantidade_ideal',
+				'value' => $model->prod_quantidade_ideal
 			],
 			[
 				'attribute' => 'prod_quantidade_minima',

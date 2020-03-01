@@ -12,44 +12,20 @@ $this->title = 'Produtos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="produto-index">
-    <p>
-        <?= Html::a('Cadastrar', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+	<p>
+		<?= Html::a('Cadastrar', ['create'], ['class'=>'btn btn-success']) ?>
+	</p>
 
-    <?php
-	 
+	<?php
 	echo GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [			   
-            ['attribute' => 'prod_codigo',
-					'headerOptions' => ['style' => 'width:5%;']
-				],
-            ['attribute' => 'cate_codigo',
-					'value' => function($oProduto){
-						return Categoria::findOne($oProduto->cate_codigo)->cate_descricao;
-					},
-					'headerOptions' => ['style' => 'width:15%;']
-				],
-            ['attribute' => 'prod_descricao',
-					'headerOptions' => ['style' => 'width:35%;']
-				],
-            ['attribute' => 'situacao',
-					'value' => function($oProduto){
-						return app\models\Produto::NOME_SITUACAO[$oProduto->situacao];		
-					},
-					'headerOptions' => ['style' => 'width:10%;']
-				],
-            ['attribute' => 'prod_quantidade_ideal',
-					'headerOptions' => ['style' => 'width:10%;']
-				],
-            ['attribute' => 'prod_quantidade_minima',
-					'headerOptions' => ['style' => 'width:10%;']
-				],
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); 
-	
+		'dataProvider'=>$dataProvider,
+		'columns'=>[
+			'id',
+			'name',
+			'created_at:datetime',
+		// ...
+		],
+	]);
 	?>
 
 </div>
