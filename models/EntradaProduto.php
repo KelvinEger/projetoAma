@@ -4,7 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use yii\data\ActiveDataProvider;
+use yii\data\SqlDataProvider;
 use yii\base\Model;
 
 /**
@@ -58,11 +58,9 @@ class EntradaProduto extends ActiveRecord {
 	 */
 	public function search($params) {
 		$query = EntradaProduto::find();
-
-		$dataProvider = new ActiveDataProvider([
-			'query'=>$query,
-		]);
-
+		
+		$dataProvider = new SqlDataProvider([ 'sql' => $this->getSqlGriEntradadProdutos()]);
+		
 		$this->load($params);
 
 		if(!$this->validate()) {
@@ -88,6 +86,26 @@ class EntradaProduto extends ActiveRecord {
 	 */
 	public function scenarios() {
 		return Model::scenarios();
+	}
+	
+	/**
+	 * Retorna SQL utilizado para montar o grid de produtos da entrada
+	 * @return string
+	 */
+	private function getSqlGriEntradadProdutos(){
+		return " SELECT entrada.entr_sequencial,
+							 entrada_produto.prod_codigo,
+							 produto.prod_descricao,
+							 lote.lote_descricao,
+							 lote.lote_validade,
+							 entrada_produto.entr_prod_quantidade
+					  FROM entrada 
+					  JOIN entrada_produto
+					    ON entrada_produto.entr_sequencial = entrada.entr_sequencial
+					  JOIN lote 
+					    ON lote.lote_sequencial = entrada_produto.lote_sequencial
+					  JOIN produto
+					    ON produto.prod_codigo = entrada_produto.prod_codigo";
 	}
 
 }

@@ -62,7 +62,9 @@ class Produto extends ActiveRecord {
 	}
 	
 	/**
-	 * Formata o array para ser utilizado no Widget 'AutoComplete'
+	 * Formata o array para ser utilizado no Widget 'AutoComplete'.
+	 * Nota: Deve ser retornado um array de objetos onde os atributos 'label' e 'value' são obrigatórios.
+	 *       Podem ser passados mais parâmetro para manipulação nos eventos.
 	 * @param array $aCondicao
 	 * @return array
 	 */
@@ -71,7 +73,11 @@ class Produto extends ActiveRecord {
 		$aRetorno  = array();
 
 		foreach($aProdutos as $obj) {
-			$aRetorno[] = $obj->prod_descricao;
+			$oProduto = new \stdClass();
+			$oProduto->value = $obj->prod_descricao;
+			$oProduto->label = $obj->prod_descricao;
+			$oProduto->valor = $obj->prod_codigo;
+			$aRetorno[] = $oProduto;
 		}
 		
 		return $aRetorno;
