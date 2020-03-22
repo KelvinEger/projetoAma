@@ -15,7 +15,6 @@ use yii\base\Model;
  * @property float|null $entr_prod_quantidade Quantidade do item
  * @property int|null $entr_sequencial Sequencial das entradas
  * @property int|null $lote_sequencial Sequencial do cadastro de lote
- * @property int|null $esto_codigo Código do estoque
  */
 class EntradaProduto extends ActiveRecord {
 
@@ -31,8 +30,8 @@ class EntradaProduto extends ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial', 'lote_sequencial', 'esto_codigo', 'entr_prod_quantidade'], 'required', 'message' => 'Campo Obrigatório'],
-			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial', 'lote_sequencial', 'esto_codigo'], 'integer'],
+			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial', 'lote_sequencial', 'entr_prod_quantidade'], 'required', 'message' => 'Campo Obrigatório'],
+			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial', 'lote_sequencial'], 'integer'],
 			[['entr_prod_quantidade'], 'number', 'message' => 'O campo deve ser um número válido'],
 			[['entr_prod_sequencial'], 'unique']
 		];

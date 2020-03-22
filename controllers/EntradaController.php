@@ -37,44 +37,67 @@ class EntradaController extends Controller {
 	/**
 	 * Renderiza a página de cadastro de entradas
 	 * @return type
+	 * @todo Refatorar de modo que a função não ultrapasse 20 linhas (boa prática de programação)
 	 */
 	public function actionCreate() {
 		$searchModel = new EntradaProduto();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		
-//		if((Yii::$app->request->post())){
-//			var_dump(Yii::$app->request->post());die;
-//			
-//			$oDados = Yii::$app->request->post();
-//			
-//			$oLote = new Lote();
-//			$oLote->setNextId();
-//			$oLote->setAttributes($oDados['Lote']);
-//			echo $oLote->save();
-//			
-//			$oEntrada = new Entrada();;
-//			$oEntrada->setNextId();
-//			$oEntrada->setAttributes($oDados['Entrada']);
-//			echo $oEntrada->save();
-//			
-//			$oEntradaProduto = new EntradaProduto();
-//			$oEntradaProduto->setNextId();
-//			$oEntradaProduto->setAttribute(['entr_prod_quantidade' => $oDados['EntradaProduto']['entr_prod_quantidade'],
-//													  'entr_sequencial' => $oEntrada['entr_sequencial'],
-//													  'lote_sequencial' => $oLote['lote_sequencial']
-//													]);
-//			echo $oEntradaProduto->save();
-//			
-//			
-//			
-//		}
-//		else{
+		
+		if((Yii::$app->request->post())){
+			$oDados = Yii::$app->request->post();
+			$oLote  = new Lote();
+			$oLote->setNextId();
+			$oLote->setAttributes($oDados['Lote']);
+						
+			if($oLote->save()){
+				$oEntrada = new Entrada();
+				$oEntrada->setNextId();
+				$oEntrada->setAttributes($oDados['Entrada']);
+				
+				if($oEntrada->save()){
+					$aErrosProdutoEntrada = false;
+					$aDadosProdutos       = json_decode($oDados['produtos']);
+					
+					foreach($aDadosProdutos as $oProduto) {
+						$oEntradaProduto = new EntradaProduto();
+						$oEntradaProduto->setNextId();
+						$oEntradaProduto->setAttributes(['lote_sequencial' => $oLote->getAttribute('lote_sequencial'),
+																	'entr_sequencial' => $oEntrada->getAttribute('entr_sequencial'),
+																	'entr_prod_quantidade' => $oProduto->quantidade,
+																	'prod_codigo' => $oProduto->produto
+																  ]);
+						
+						if($oEntradaProduto->save()){							
+							return $this->render('create', [
+								'searchModel'  => $searchModel,
+								'dataProvider' => $dataProvider,
+								'cadastrou'    => true
+							]);	
+						}
+						else{
+							$aErrosProdutoEntrada[] = $oEntradaProduto->getErrors();
+						}
+					}
+					
+					if($aErrosProdutoEntrada){
+						var_dump($aErrosProdutoEntrada);
+					}
+				}
+				else{
+					$aErrosEntrada = $oEntrada->getErrors();
+				}
+			}
+			else{
+				$aErrosLote = $oLote->getErrors();
+			}			
+		}
+		else {
 			return $this->render('create', [
 					'searchModel'  => $searchModel,
 					'dataProvider' => $dataProvider
 			]);
-//		}
-		
+		}
 	}
 
 }

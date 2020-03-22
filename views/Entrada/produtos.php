@@ -41,13 +41,19 @@ echo GridView::widget([
 
 <script>
 	
+	let aProdutos = new Array();
 	/**
 	 * Função chaamada ao confirmar o cadastro da entrada
 	 * @returns {void}
 	 * @todo implementar toda a validação
 	 */
 	function validaSubmit(){
-		alert('ada');
+		$('<input>').attr({
+			type: 'hidden',
+			id: 'produtos',
+			name: 'produtos',
+			value: JSON.stringify(aProdutos)
+	  }).appendTo('form');
 	}
 	
 	
@@ -56,7 +62,6 @@ echo GridView::widget([
 	 * @returns {void}
 	 */
 	function adicionaLinhaGrid(){
-		let aProdutos = new Array();
 		let oProduto = { produto: $('#produto-prod_descricao').attr('produto'),
 					   produto_nome: $('#produto-prod_descricao').attr('nome'),
 								  lote: $('#lote-lote_descricao').val(),

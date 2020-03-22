@@ -12,6 +12,7 @@ use app\models\EntradaProduto;
 $this->title = 'Entrada';
 $this->params['breadcrumbs'][] = ['label' => 'Entradas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="entrada-create">
 	<div class="container row">

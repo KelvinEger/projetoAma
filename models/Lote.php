@@ -28,7 +28,7 @@ class Lote extends ActiveRecord {
 		return [
 			[['lote_sequencial', 'lote_validade', 'lote_descricao'], 'required', 'message' => 'Campo obrigatório'],
 			[['lote_sequencial'], 'integer'],
-			[['lote_validade'], 'date'],
+			[['lote_validade'], 'safe'],
 			[['lote_descricao'], 'string', 'max' => 15],
 			[['lote_sequencial'], 'unique']
 		];
