@@ -39,15 +39,26 @@ echo GridView::widget([
 
 ?>
 
-
 <script>
+	
+	/**
+	 * Função chaamada ao confirmar o cadastro da entrada
+	 * @returns {void}
+	 * @todo implementar toda a validação
+	 */
+	function validaSubmit(){
+		alert('ada');
+	}
+	
 	
 	/**
 	 * Adiciona uma linha ao grid de produtos
 	 * @returns {void}
 	 */
 	function adicionaLinhaGrid(){
+		let aProdutos = new Array();
 		let oProduto = { produto: $('#produto-prod_descricao').attr('produto'),
+					   produto_nome: $('#produto-prod_descricao').attr('nome'),
 								  lote: $('#lote-lote_descricao').val(),
 							 validade: $('#lote-lote_validade').val(),
 						  quantidade: $('#entradaproduto-entr_prod_quantidade').val()
@@ -59,11 +70,12 @@ echo GridView::widget([
 	
 			$('#w1 tbody').append('<tr>\n\
 										<td>' + oProduto.produto    + '</td>\n\
-										<td>' + oProduto.produto    + '</td>\n\
+										<td>' + oProduto.produto_nome    + '</td>\n\
 										<td>' + oProduto.lote       + '</td>\n\
 										<td>' + oProduto.validade   + '</td>\n\
 										<td>' + oProduto.quantidade + '</td>\n\
 									</tr>');
+			aProdutos.push(oProduto);
 		}
 	}
 	

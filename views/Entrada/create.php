@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 	<div class="container row">
 		<?php
-		echo Html::submitButton('Cadastrar', ['class' => 'btn btn-success']);
+		echo Html::submitButton('Cadastrar', ['class' => 'btn btn-success', 'onclick' => 'validaSubmit();']);
 		echo '&nbsp';
 		echo Html::a('Cancelar', ['/categoria'], ['class' => 'btn btn-primary']);
 		echo '</div>';

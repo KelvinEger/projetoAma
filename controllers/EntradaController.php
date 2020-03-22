@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use app\models\EntradaProduto;
 use app\models\Entrada;
 use app\models\Produto;
+use app\models\Lote;
 
 class EntradaController extends Controller {
 
@@ -41,10 +42,39 @@ class EntradaController extends Controller {
 		$searchModel = new EntradaProduto();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		
-		return $this->render('create', [
-				'searchModel'  => $searchModel,
-				'dataProvider' => $dataProvider
-		]);
+//		if((Yii::$app->request->post())){
+//			var_dump(Yii::$app->request->post());die;
+//			
+//			$oDados = Yii::$app->request->post();
+//			
+//			$oLote = new Lote();
+//			$oLote->setNextId();
+//			$oLote->setAttributes($oDados['Lote']);
+//			echo $oLote->save();
+//			
+//			$oEntrada = new Entrada();;
+//			$oEntrada->setNextId();
+//			$oEntrada->setAttributes($oDados['Entrada']);
+//			echo $oEntrada->save();
+//			
+//			$oEntradaProduto = new EntradaProduto();
+//			$oEntradaProduto->setNextId();
+//			$oEntradaProduto->setAttribute(['entr_prod_quantidade' => $oDados['EntradaProduto']['entr_prod_quantidade'],
+//													  'entr_sequencial' => $oEntrada['entr_sequencial'],
+//													  'lote_sequencial' => $oLote['lote_sequencial']
+//													]);
+//			echo $oEntradaProduto->save();
+//			
+//			
+//			
+//		}
+//		else{
+			return $this->render('create', [
+					'searchModel'  => $searchModel,
+					'dataProvider' => $dataProvider
+			]);
+//		}
+		
 	}
 
 }
