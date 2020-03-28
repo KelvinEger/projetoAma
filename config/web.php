@@ -15,7 +15,7 @@ $config = [
     'aliases' => [
         '@bower'      => '@vendor/bower-asset',
         '@npm'        => '@vendor/npm-asset',
-			'@adminlte/widgets'=>'@vendor/adminlte/yii2-widgets'
+		  '@adminlte/widgets'=>'@vendor/adminlte/yii2-widgets'
     ],
     'components' => [
         'request' => [

@@ -36,7 +36,7 @@ use yii\helpers\Url;
 					  'options' => ['class' => 'sidebar-menu'],
 					  'items' => [
 						  ['label' => 'Menu', 'options' => ['class' => 'header']],
-						  ['label' => 'Painel Principal', 'icon' => 'fa fa-dashboard',
+						  ['label' => 'Painel Principal', 'icon' => 'fa fa-chart-line',
 							  'url' => ['/'], 'active' => $this->context->route == 'site/index'
 						  ],
 						  [
@@ -46,21 +46,27 @@ use yii\helpers\Url;
 							  'items' => [
 								  [
 									  'label' => 'Produtos',
-									  'icon' => 'fa fa-database',
+									  'icon' => 'fa fa-archive',
 									  'url' => '?r=produto/create',
 									  'active' => $this->context->route == 'produto/create'
 								  ],
 								  [
 									  'label' => 'Categorias',
-									  'icon' => 'fa fa-database',
+									  'icon' => 'fa fa-list',
 									  'url' => '?r=categoria/create',
 									  'active' => $this->context->route == 'categoria/create'
 								  ],
 								  [
 									  'label' => 'Entradas',
-									  'icon' => 'fa fa-database',
+									  'icon' => 'fa fa-cart-plus',
 									  'url' => '?r=entrada/create',
-									  'active' => $this->context->route == 'categoria/create'
+									  'active' => $this->context->route == 'entrada/create'
+								  ],
+								  [
+									  'label' => 'Saídas',
+									  'icon' => 'fa fa-cart-arrow-down',
+									  'url' => '?r=saida/create',
+									  'active' => $this->context->route == 'saida/create'
 								  ]
 							  ]
 						  ],
@@ -96,6 +102,18 @@ use yii\helpers\Url;
 								  ],
 								  [
 									  'label' => 'Categorias',
+									  'icon' => 'fa fa-print',
+									  'url' => '?r=relatorio/categoria',
+									  'active' => $this->context->route == 'relatorio/categoria'
+								  ],
+								  [
+									  'label' => 'Entradas',
+									  'icon' => 'fa fa-print',
+									  'url' => '?r=relatorio/produto',
+									  'active' => $this->context->route == 'relatorio/produto'
+								  ],
+								  [
+									  'label' => 'Saídas',
 									  'icon' => 'fa fa-print',
 									  'url' => '?r=relatorio/categoria',
 									  'active' => $this->context->route == 'relatorio/categoria'

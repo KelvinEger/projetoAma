@@ -3,39 +3,40 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\bootstrap\Tabs;
-use app\models\Entrada;
-use app\models\EntradaProduto;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Entrada */
+/** 
+ * @var $this yii\web\View 
+ * @var $model app\models\Entrada 
+ * @var $searchModel app\models\EntradaProduto
+ * @var $dataprovider search of app\models\EntradaProduto
+ */
+
+echo Html::jsFile('@web/js/tratamentos_entrada.js');
 
 $this->title = 'Entrada';
 $this->params['breadcrumbs'][] = ['label' => 'Entradas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="entrada-create">
 	<div class="container row">
 
 		<?php
-		$form     = ActiveForm::begin(['method' => 'post']);
-		$oEntrada = new Entrada();
+		$form = ActiveForm::begin(['method' => 'post']);
 		
 		echo '<br>';
 		echo Tabs::widget([
 			'items' => [
 				[
 					'label' => 'Informações da entrada',
-					'content' => $this->render('informacoes_entrada.php', ['form'     => $form, 
-																							 'oEntrada' => $oEntrada
+					'content' => $this->render('informacoes_entrada.php', ['form' => $form
 																						   ]),
 					'active' => true
 				],
 				[
 					'label' => 'Produtos da entrada',
-					'content' => $this->render('produtos.php', ['form'            => $form, 
-																			  'dataProvider'    => $dataProvider,
-																			  'searchModel'     => $searchModel
+					'content' => $this->render('produtos.php', ['form'         => $form, 
+																			  'dataProvider' => $dataProvider,
+																			  'searchModel'  => $searchModel
 																			 ]),
 				],
 		]]);

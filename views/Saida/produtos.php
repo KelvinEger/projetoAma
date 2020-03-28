@@ -5,12 +5,10 @@ use app\models\Lote;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Produto;
-use app\models\EntradaProduto;
-use app\models\ProdutoEntrada;
+use app\models\SaidaProduto;
 
 $oLote           = new Lote();
-$oEntradaProduto = new EntradaProduto();
-$oProdutoEntrada = new ProdutoEntrada();
+$oSaidaProduto   = new SaidaProduto();
 $oProduto        = new Produto();
 
 echo $form->field($oProduto, 'prod_descricao')->widget(AutoComplete::classname(), [
@@ -22,7 +20,7 @@ echo $form->field($oProduto, 'prod_descricao')->widget(AutoComplete::classname()
 
 echo $form->field($oLote, 'lote_descricao');
 echo $form->field($oLote, 'lote_validade')->input('date');
-echo $form->field($oEntradaProduto, 'entr_prod_quantidade')->textInput(['type' => 'number', 'min' => 0]);
+//echo $form->field($oSaidaProduto, 'nome_do_campo')->textInput(['type' => 'number', 'min' => 0]);
 echo Html::button('Adicionar', ['class'   => 'btn btn-primary',
 										  'onclick' => 'adicionaLinhaGrid(this);'
 										 ]);
@@ -34,7 +32,6 @@ echo '<div id="w1" class="grid-view">
 						<th>Produto</th>
 						<th>Nome</th>
 						<th>Lote</th>
-						<th>Validade</th>
 						<th>Quantidade</th>
 					</tr>
 				</thead>

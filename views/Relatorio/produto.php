@@ -19,9 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				<?php
 				echo Html::label('Filtro');
 				echo Html::dropDownList('filtros', '', ['' => 'Selecione',
-					'1' => 'Contém',
-					'2' => 'Inicia com',
-					'3' => 'Termina com'], ['class' => 'form-control'])
+					'1' => 'Igual a',
+					'2' => 'Contém',
+					'3' => 'Inicia com',
+					'4' => 'Termina com'], ['class' => 'form-control'])
 				?>
 			</div>
 			<div class="col-lg-9">
