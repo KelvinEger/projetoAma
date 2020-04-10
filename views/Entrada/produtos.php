@@ -1,23 +1,24 @@
 <?php
 
 use yii\jui\AutoComplete;
-use app\models\Lote;
+use app\models\LoteEntrada;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Produto;
 use app\models\EntradaProduto;
 use app\models\ProdutoEntrada;
 
-$oLote           = new Lote();
+$oLote           = new LoteEntrada();
 $oEntradaProduto = new EntradaProduto();
 $oProdutoEntrada = new ProdutoEntrada();
 $oProduto        = new Produto();
 
-echo $form->field($oProduto, 'prod_descricao')->widget(AutoComplete::classname(), [
+echo $form->field($oProdutoEntrada, 'prod_descricao')->widget(AutoComplete::classname(), [
+	'model'         => $oProdutoEntrada,
    'attribute'     => 'prod_descricao',
 	'options'       => ['class'  => 'form-control'],
 	'clientEvents'  => ['change' => "function (oEvento, oObjetoDados){ adicionaAtributo(oEvento, oObjetoDados); }"],
-   'clientOptions' => ['source' => $oProduto->getProdutosOrganizados(['situacao' => 1])]
+   'clientOptions' => ['source' => $oProdutoEntrada->getProdutosOrganizados(['situacao' => 1])]
 ]);
 
 echo $form->field($oLote, 'lote_descricao');

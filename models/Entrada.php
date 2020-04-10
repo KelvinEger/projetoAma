@@ -16,7 +16,10 @@ use yii\db\ActiveRecord;
  */
 class Entrada extends ActiveRecord {
 	
-	const TIPO_ENTRADA = [1 => 'Compra', 2 => 'Doação', 3 => 'Produção Própria'];
+	const TIPO_ENTRADA = [1 => 'Compra', 
+		                   2 => 'Doação', 
+								 3 => 'Produção Própria',
+								 4 => 'Ajuste Estoque'];
 
 	/**
 	 * {@inheritdoc}
@@ -29,13 +32,13 @@ class Entrada extends ActiveRecord {
 	 * {@inheritdoc}
 	 */
 	public function rules() {
-		return [
-			[['entr_sequencial'], 'required'],
-			[['entr_sequencial', 'entr_tipo_codigo'], 'integer'],
+		return [		
 			[['entr_data'], 'safe'],
+			[['entr_data'], 'required', 'message' => 'Campo Obrigatório'],
 			[['entr_valor_total'], 'number'],
-			[['entr_observacao'], 'string', 'max'=>500],
 			[['entr_sequencial'], 'unique'],
+			[['entr_sequencial', 'entr_tipo_codigo'], 'integer'],
+			[['entr_observacao'], 'string', 'max' => 500]
 		];
 	}
 

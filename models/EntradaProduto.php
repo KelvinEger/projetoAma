@@ -30,7 +30,7 @@ class EntradaProduto extends ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial', 'lote_sequencial', 'entr_prod_quantidade'], 'required', 'message' => 'Campo Obrigatório'],
+			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial', 'lote_sequencial'], 'required', 'message' => 'Campo Obrigatório'],
 			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial', 'lote_sequencial'], 'integer'],
 			[['entr_prod_quantidade'], 'number', 'message' => 'O campo deve ser um número válido'],
 			[['entr_prod_sequencial'], 'unique']

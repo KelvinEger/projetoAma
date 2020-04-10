@@ -8,6 +8,8 @@ use yii\bootstrap\Tabs;
  * @var $model Produto
  */
 
+echo Html::jsFile('@web/js/tratamentos_saida.js');
+
 $this->title = 'Saída';
 $this->params['breadcrumbs'][] = ['label' => 'Saídas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -45,6 +47,5 @@ $this->params['breadcrumbs'][] = $this->title;
 		echo '</div>';
 		ActiveForm::end();
 		?>
-
 	</div>
 </div>

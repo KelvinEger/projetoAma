@@ -5,7 +5,7 @@ let aProdutos = new Array();
  * Função chaamada ao confirmar o cadastro da entrada
  * @returns {void}
  */
-function validaSubmit() {
+const validaSubmit = function() {
 	if(aProdutos.length > 0 && validaInformacoes()){
 		$('<input>').attr({
 			type: 'hidden',
@@ -34,7 +34,7 @@ const validaInformacoes = function(){
  * @param {objetc} oButton Objeto clicado
  * @returns {void}
  */
-function adicionaLinhaGrid(oButton) {
+const adicionaLinhaGrid = function(oButton) {
 	$(oButton).blur();
 	
 	let oProduto = {
@@ -61,7 +61,7 @@ function adicionaLinhaGrid(oButton) {
 	}
 }
 
-function limpaCampos(){
+const limpaCampos = function(){
 	$('#produtoentrada-prod_descricao, #loteentrada-lote_descricao, #loteentrada-lote_validade, #entradaproduto-entr_prod_quantidade').val('');
 	$('.field-produto-prod_descricao, .field-loteentrada-lote_descricao, .field-loteentrada-lote_validade, .field-entradaproduto-entr_prod_quantidade').removeClass('has-error').removeClass('has-success');
 
@@ -75,13 +75,32 @@ function limpaCampos(){
 }
 
 /**
+ * Seta os lotes do produto informado no campo 'Lote'
+ * @param {int} iProduto
+ * @returns {void}
+ */
+const getLotes = function(iProduto, sRota){
+	$.get(sRota, {
+		 iProduto : iProduto
+	}, function(msg){
+		 $("#resultado").html(msg);
+	});
+}
+
+/**
  * Define o valor de um atributo extra para posterior manipulação
  * @param {object} oEventoJquery
  * @param {object} oObjetoDados
  * @returns {void}
  */
-function adicionaAtributo(oEventoJquery, oObjetoDados) {	
-	(oObjetoDados.item) ? $('#produtoentrada-prod_descricao').attr('produto', oObjetoDados.item.valor).attr('nome', oObjetoDados.item.label) : $('#produtoentrada-prod_descricao').removeAttr('produto').removeAttr('nome');
+const adicionaAtributo = function(oEventoJquery, oObjetoDados, sRota) {	
+	if(oObjetoDados.item){
+		$('#produtoentrada-prod_descricao').attr('produto', oObjetoDados.item.valor).attr('nome', oObjetoDados.item.label)
+		getLotes(oObjetoDados.item.valor, sRota);
+	}
+	else{
+		$('#produtoentrada-prod_descricao').removeAttr('produto').removeAttr('nome');
+	}
 }
 
 /**
@@ -89,7 +108,7 @@ function adicionaAtributo(oEventoJquery, oObjetoDados) {
  * Caso não seja válido, mostrará a mensagem de campo obrigatório.
  * @returns {Boolean}
  */
-function produtoValido() {
+const produtoValido = function() {
 	if($('#produtoentrada-prod_descricao').val() &&
 		$('#loteentrada-lote_descricao').val() &&
 		$('#loteentrada-lote_validade').val() &&

@@ -18,7 +18,7 @@ class CategoriaConsulta extends Categoria
     {
         return [
             [['cate_codigo'], 'integer'],
-            [['cate_descricao'], 'safe'],
+            [['cate_descricao'], 'date'],
         ];
     }
 

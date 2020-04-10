@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Produto;
 use app\models\SaidaProduto;
+use yii\helpers\Url;
 
 $oLote           = new Lote();
 $oSaidaProduto   = new SaidaProduto();
@@ -14,13 +15,12 @@ $oProduto        = new Produto();
 echo $form->field($oProduto, 'prod_descricao')->widget(AutoComplete::classname(), [
    'attribute'     => 'prod_descricao',
 	'options'       => ['class'  => 'form-control'],
-	'clientEvents'  => ['change' => "function (oEvento, oObjetoDados){ adicionaAtributo(oEvento, oObjetoDados); }"],
+	'clientEvents'  => ['change' => "function (oEvento, oObjetoDados){ adicionaAtributo(oEvento, oObjetoDados, '".Url::to(['lote/lotes'])."'); }"],
    'clientOptions' => ['source' => $oProduto->getProdutosOrganizados(['situacao' => 1])]
 ]);
 
-echo $form->field($oLote, 'lote_descricao');
+echo $form->field($oLote, 'lote_descricao')->dropDownList( ['' => 'Selecione'] );
 echo $form->field($oLote, 'lote_validade')->input('date');
-//echo $form->field($oSaidaProduto, 'nome_do_campo')->textInput(['type' => 'number', 'min' => 0]);
 echo Html::button('Adicionar', ['class'   => 'btn btn-primary',
 										  'onclick' => 'adicionaLinhaGrid(this);'
 										 ]);
