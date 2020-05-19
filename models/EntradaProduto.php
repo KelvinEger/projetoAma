@@ -14,7 +14,6 @@ use yii\base\Model;
  * @property int|null $prod_codigo Cadastro de produto
  * @property float|null $entr_prod_quantidade Quantidade do item
  * @property int|null $entr_sequencial Sequencial das entradas
- * @property int|null $lote_sequencial Sequencial do cadastro de lote
  */
 class EntradaProduto extends ActiveRecord {
 
@@ -30,8 +29,8 @@ class EntradaProduto extends ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial', 'lote_sequencial'], 'required', 'message' => 'Campo Obrigatório'],
-			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial', 'lote_sequencial'], 'integer'],
+			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial'], 'required', 'message' => 'Campo Obrigatório'],
+			[['entr_prod_sequencial', 'prod_codigo', 'entr_sequencial'], 'integer'],
 			[['entr_prod_quantidade'], 'number', 'message' => 'O campo deve ser um número válido'],
 			[['entr_prod_sequencial'], 'unique']
 		];
@@ -45,8 +44,7 @@ class EntradaProduto extends ActiveRecord {
 			'entr_prod_sequencial' => 'Código do produto na entrada',
 			'prod_codigo'          => 'Produto',
 			'entr_prod_quantidade' => 'Quantidade',
-			'entr_sequencial'      => 'Código Entrada',
-			'lote_sequencial'      => 'Lote'
+			'entr_sequencial'      => 'Código Entrada'
 		];
 	}
 
@@ -72,7 +70,6 @@ class EntradaProduto extends ActiveRecord {
 			'entr_prod_quantidade' => $this->entr_prod_quantidade,
 			'entr_sequencial'      => $this->entr_sequencial,
 			'entr_sequencial'      => $this->entr_sequencial,
-			'lote_sequencial'      => $this->lote_sequencial,
 		]);
 
 		$query->andFilterWhere(['like', 'prod_codigo', $this->prod_codigo]);
@@ -95,14 +92,10 @@ class EntradaProduto extends ActiveRecord {
 		return " SELECT entrada.entr_sequencial,
 							 entrada_produto.prod_codigo,
 							 produto.prod_descricao,
-							 lote.lote_descricao,
-							 lote.lote_validade,
 							 entrada_produto.entr_prod_quantidade
 					  FROM entrada 
 					  JOIN entrada_produto
 					    ON entrada_produto.entr_sequencial = entrada.entr_sequencial
-					  JOIN lote 
-					    ON lote.lote_sequencial = entrada_produto.lote_sequencial
 					  JOIN produto
 					    ON produto.prod_codigo = entrada_produto.prod_codigo";
 	}

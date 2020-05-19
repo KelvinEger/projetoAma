@@ -38,22 +38,19 @@ function adicionaLinhaGrid(oButton) {
 	$(oButton).blur();
 	
 	let oProduto = {
-		produto: $('#produtoentrada-prod_descricao').attr('produto'),
+		prod_codigo: $('#produtoentrada-prod_descricao').attr('produto'),
 		produto_nome: $('#produtoentrada-prod_descricao').attr('nome'),
-		lote: $('#loteentrada-lote_descricao').val(),
-		validade: $('#loteentrada-lote_validade').val(),
-		quantidade: $('#entradaproduto-entr_prod_quantidade').val()
+		entr_prod_quantidade: $('#entradaproduto-entr_prod_quantidade').val()
 	};
 
 	if(produtoValido(oProduto)) {
 		$('#em_branco').remove(); // Remove a linha de grid vazio
 
 		$('#w1 tbody').append('<tr>\n\
-										<td>' + oProduto.produto + '</td>\n\
+										<td>' + oProduto.prod_codigo + '</td>\n\
 										<td>' + oProduto.produto_nome + '</td>\n\
-										<td>' + oProduto.lote + '</td>\n\
 										<td>' + oProduto.validade + '</td>\n\
-										<td>' + oProduto.quantidade + '</td>\n\
+										<td>' + oProduto.entr_prod_quantidade + '</td>\n\
 									</tr>');
 		aProdutos.push(oProduto);
 		
@@ -62,8 +59,8 @@ function adicionaLinhaGrid(oButton) {
 }
 
 function limpaCampos(){
-	$('#produtoentrada-prod_descricao, #loteentrada-lote_descricao, #loteentrada-lote_validade, #entradaproduto-entr_prod_quantidade').val('');
-	$('.field-produto-prod_descricao, .field-loteentrada-lote_descricao, .field-loteentrada-lote_validade, .field-entradaproduto-entr_prod_quantidade').removeClass('has-error').removeClass('has-success');
+	$('#produtoentrada-prod_descricao, #entradaproduto-entr_prod_quantidade').val('');
+	$('.field-produto-prod_descricao, .field-entradaproduto-entr_prod_quantidade').removeClass('has-error').removeClass('has-success');
 
 	/*Investigar no futuro pra tirar isso aqui 
 	 * Por algum motivo está voltando e validando o último campo novamente, apensar de 
@@ -90,14 +87,11 @@ function adicionaAtributo(oEventoJquery, oObjetoDados) {
  * @returns {Boolean}
  */
 function produtoValido() {
-	if($('#produtoentrada-prod_descricao').val() &&
-		$('#loteentrada-lote_descricao').val() &&
-		$('#loteentrada-lote_validade').val() &&
-		$('#entradaproduto-entr_prod_quantidade').val()){
+	if($('#produtoentrada-prod_descricao').val() && $('#entradaproduto-entr_prod_quantidade').val()){
 		return true;
 	}
 	else {	
-		$('#produtoentrada-prod_descricao, #loteentrada-lote_descricao, #loteentrada-lote_validade, #entradaproduto-entr_prod_quantidade').each(function (){
+		$('#produtoentrada-prod_descricao, #entradaproduto-entr_prod_quantidade').each(function (){
 			if(!$(this).val()){
 				 $('.field-' + $(this).attr('id')).addClass('has-error');
 				 $('.field-' + $(this).attr('id') + ' .help-block').text('Campo Obrigatório');

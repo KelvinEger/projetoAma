@@ -2,7 +2,7 @@
 let aProdutos = new Array();
 
 /**
- * Função chaamada ao confirmar o cadastro da entrada
+ * Função chaamada ao confirmar o cadastro da 
  * @returns {void}
  */
 const validaSubmit = function() {
@@ -14,10 +14,10 @@ const validaSubmit = function() {
 			value: JSON.stringify(aProdutos)
 		}).appendTo('form');
 		
-		$("form").submit();
+		$("#w0").submit();
 	}
 	else {
-		alert('É preciso informar pelo menos um produto e os campos da aba Informações da entrada');
+		alert('É preciso informar pelo menos um produto e os campos da aba Informações da ');
 	}
 }
 
@@ -26,7 +26,7 @@ const validaSubmit = function() {
  * @returns {Boolean}
  */
 const validaInformacoes = function(){
-	return ($('#entrada-entr_tipo_codigo').val() && $('#entrada-entr_data').val() && $('#entrada-entr_valor_total').val()) ?  true : false;
+	return ($('#saida-tipo_said_codigo').val() && $('#saida-said_data').val()) ?  true : false;
 }
 
 /**
@@ -34,26 +34,22 @@ const validaInformacoes = function(){
  * @param {objetc} oButton Objeto clicado
  * @returns {void}
  */
-const adicionaLinhaGrid = function(oButton) {
+const adicionaLinhaGrid = function(oButton) {	
 	$(oButton).blur();
 	
 	let oProduto = {
-		produto: $('#produtoentrada-prod_descricao').attr('produto'),
+		prod_codigo: $('#produtoentrada-prod_descricao').attr('produto'),
 		produto_nome: $('#produtoentrada-prod_descricao').attr('nome'),
-		lote: $('#loteentrada-lote_descricao').val(),
-		validade: $('#loteentrada-lote_validade').val(),
-		quantidade: $('#entradaproduto-entr_prod_quantidade').val()
+		said_prod_quantidade: $('#saidaproduto-said_prod_quantidade').val()
 	};
 
 	if(produtoValido(oProduto)) {
 		$('#em_branco').remove(); // Remove a linha de grid vazio
 
-		$('#w1 tbody').append('<tr>\n\
-										<td>' + oProduto.produto + '</td>\n\
+		$('#produtos_saida tbody').append('<tr>\n\
+										<td>' + oProduto.prod_codigo + '</td>\n\
 										<td>' + oProduto.produto_nome + '</td>\n\
-										<td>' + oProduto.lote + '</td>\n\
-										<td>' + oProduto.validade + '</td>\n\
-										<td>' + oProduto.quantidade + '</td>\n\
+										<td>' + oProduto.said_prod_quantidade + '</td>\n\
 									</tr>');
 		aProdutos.push(oProduto);
 		
@@ -62,30 +58,18 @@ const adicionaLinhaGrid = function(oButton) {
 }
 
 const limpaCampos = function(){
-	$('#produtoentrada-prod_descricao, #loteentrada-lote_descricao, #loteentrada-lote_validade, #entradaproduto-entr_prod_quantidade').val('');
-	$('.field-produto-prod_descricao, .field-loteentrada-lote_descricao, .field-loteentrada-lote_validade, .field-entradaproduto-entr_prod_quantidade').removeClass('has-error').removeClass('has-success');
+	$('#produtoentrada-prod_descricao, #saidaproduto-said_prod_quantidade').val('');
+	$('.field-produtoentrada-prod_descricao, .field-saidaproduto-said_prod_quantidade').removeClass('has-error').removeClass('has-success');
 
 	/*Investigar no futuro pra tirar isso aqui 
 	 * Por algum motivo está voltando e validando o último campo novamente, apensar de 
 	 */
 	setTimeout(function(){
-		$('.field-entradaproduto-entr_prod_quantidade').removeClass('has-error');
-		$('.field-entradaproduto-entr_prod_quantidade .help-block').text('');
+		$('.field-saidaproduto-said_prod_quantidade').removeClass('has-error').removeClass('has-success');
+		$('.field-saidaproduto-said_prod_quantidade .help-block').text('');
 	}, 200); 
 }
 
-/**
- * Seta os lotes do produto informado no campo 'Lote'
- * @param {int} iProduto
- * @returns {void}
- */
-const getLotes = function(iProduto, sRota){
-	$.get(sRota, {
-		 iProduto : iProduto
-	}, function(msg){
-		 $("#resultado").html(msg);
-	});
-}
 
 /**
  * Define o valor de um atributo extra para posterior manipulação
@@ -93,10 +77,9 @@ const getLotes = function(iProduto, sRota){
  * @param {object} oObjetoDados
  * @returns {void}
  */
-const adicionaAtributo = function(oEventoJquery, oObjetoDados, sRota) {	
+const adicionaAtributo = function(oEventoJquery, oObjetoDados) {	
 	if(oObjetoDados.item){
 		$('#produtoentrada-prod_descricao').attr('produto', oObjetoDados.item.valor).attr('nome', oObjetoDados.item.label)
-		getLotes(oObjetoDados.item.valor, sRota);
 	}
 	else{
 		$('#produtoentrada-prod_descricao').removeAttr('produto').removeAttr('nome');
@@ -108,15 +91,12 @@ const adicionaAtributo = function(oEventoJquery, oObjetoDados, sRota) {
  * Caso não seja válido, mostrará a mensagem de campo obrigatório.
  * @returns {Boolean}
  */
-const produtoValido = function() {
-	if($('#produtoentrada-prod_descricao').val() &&
-		$('#loteentrada-lote_descricao').val() &&
-		$('#loteentrada-lote_validade').val() &&
-		$('#entradaproduto-entr_prod_quantidade').val()){
+const produtoValido = function(oProduto) {
+	if(oProduto.prod_codigo && oProduto.said_prod_quantidade){
 		return true;
 	}
 	else {	
-		$('#produtoentrada-prod_descricao, #loteentrada-lote_descricao, #loteentrada-lote_validade, #entradaproduto-entr_prod_quantidade').each(function (){
+		$('#produtoentrada-prod_descricao, #produto-entr_prod_quantidade').each(function (){
 			if(!$(this).val()){
 				 $('.field-' + $(this).attr('id')).addClass('has-error');
 				 $('.field-' + $(this).attr('id') + ' .help-block').text('Campo Obrigatório');

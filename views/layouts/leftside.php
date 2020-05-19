@@ -86,6 +86,12 @@ use yii\helpers\Url;
 									  'icon' => 'fa fa-database',
 									  'url' => '?r=categoria/index',
 									  'active' => $this->context->route == 'categoria/index'
+								  ],
+								  [
+									  'label' => 'Entradas',
+									  'icon' => 'fa fa-cart-plus',
+									  'url' => '?r=entrada/index',
+									  'active' => $this->context->route == 'entrada/index'
 								  ]
 							  ]
 						  ],

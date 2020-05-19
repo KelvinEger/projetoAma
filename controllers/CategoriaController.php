@@ -32,13 +32,14 @@ class CategoriaController extends Controller {
 	 * Lists all Categoria models.
 	 * @return mixed
 	 */
-	public function actionIndex() {
+	public function actionIndex($acao = '') {
 		$searchModel = new CategoriaConsulta();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 		return $this->render('index', [
-					  'searchModel' => $searchModel,
-					  'dataProvider' => $dataProvider,
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+				'acao' => $acao
 		]);
 	}
 
@@ -50,7 +51,7 @@ class CategoriaController extends Controller {
 	 */
 	public function actionView($id) {
 		return $this->render('view', [
-					  'model' => $this->findModel($id),
+				'model' => $this->findModel($id),
 		]);
 	}
 
@@ -62,20 +63,19 @@ class CategoriaController extends Controller {
 	public function actionCreate() {
 		$model = new Categoria();
 
-		if ($model->load(Yii::$app->request->post())) {
+		if($model->load(Yii::$app->request->post())) {
 			$model->setAttribute('cate_codigo', $this->getMaxCategoria()['cate_codigo'] + 1);
-			
-			if($model->save()){
-				Yii::$app->session->setFlash('success', "Registro salvo com sucesso");
-				return $this->redirect(['index', 'id' => $model->cate_codigo]);
+
+			if($model->save()) {
+				return $this->actionIndex('cadastrado');
 			}
-			else{
-				Yii::$app->session->setFlash('error', "Erro ao salvar. Erro: ". json_encode($model->getErrors()));
+			else {
+				Yii::$app->session->setFlash('error', "Erro ao salvar. Erro: ".json_encode($model->getErrors()));
 			}
 		}
 
 		return $this->render('create', [
-					  'model' => $model,
+				'model' => $model,
 		]);
 	}
 
@@ -89,12 +89,12 @@ class CategoriaController extends Controller {
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->cate_codigo]);
+		if($model->load(Yii::$app->request->post()) && $model->save()) {
+			return $this->actionIndex('alterado');
 		}
 
 		return $this->render('update', [
-					  'model' => $model,
+				'model' => $model,
 		]);
 	}
 
@@ -119,13 +119,13 @@ class CategoriaController extends Controller {
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	protected function findModel($id) {
-		if (($model = Categoria::findOne($id)) !== null) {
+		if(($model = Categoria::findOne($id)) !== null) {
 			return $model;
 		}
 
 		throw new NotFoundHttpException('A página requisitada não existe.');
 	}
-	
+
 	/**
 	 * Retorna o maior valor da chave da tabela produto
 	 * @return int

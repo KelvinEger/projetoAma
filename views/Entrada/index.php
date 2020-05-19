@@ -13,18 +13,30 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="produto-index">
 	<p>
-		<?= Html::a('Cadastrar', ['create'], ['class'=>'btn btn-success']) ?>
+		<?= Html::a('Cadastrar', ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
 
-	<?php
-	echo GridView::widget([
-		'dataProvider'=>$dataProvider,
-		'columns'=>[
-			'id',
-			'name',
-			'created_at:datetime',
-		// ...
-		],
+	<?=
+	
+	GridView::widget([
+		'dataProvider' => $dataProvider,
+		'filterModel' => $searchModel,
+		'columns' => [
+            ['attribute' => 'entr_sequencial',
+                'headerOptions' => ['style' => 'width:5%;']
+            ],
+				['attribute' => 'entr_tipo_descricao',
+                'headerOptions' => ['style' => 'width:5%;']
+            ],
+            ['attribute' => 'entr_data',
+                'headerOptions' => ['style' => 'width:10%;']
+            ],
+            ['attribute' => 'entr_valor_total',
+                'headerOptions' => ['style' => 'width:5%;']
+            ],
+            ['class' => 'yii\grid\ActionColumn',  
+				'headerOptions' => ['style' => 'width:8%']],
+			]
 	]);
 	?>
 

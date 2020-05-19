@@ -8,7 +8,6 @@ use yii\filters\VerbFilter;
 use app\models\EntradaProduto;
 use app\models\Entrada;
 use app\models\Produto;
-use app\models\LoteEntrada;
 use yii\i18n\Formatter;
 
 class EntradaController extends Controller {
@@ -18,10 +17,10 @@ class EntradaController extends Controller {
 	 */
 	public function behaviors() {
 		return [
-			'verbs'=>[
-				'class'=>VerbFilter::className(),
-				'actions'=>[
-					'delete'=>['POST'],
+			'verbs' => [
+				'class' => VerbFilter::className(),
+				'actions' => [
+					'delete' => ['POST'],
 				],
 			],
 		];
@@ -32,7 +31,14 @@ class EntradaController extends Controller {
 	 * @return type
 	 */
 	public function actionIndex() {
-		return $this->render('index');
+
+		$searchModel = new \app\models\EntradaConsulta();
+		$dados = $searchModel->search(Yii::$app->request->queryParams);
+
+		return $this->render('index', [
+				'dataProvider' => $dados,
+				'searchModel' => $searchModel
+		]);
 	}
 
 	/**
@@ -41,73 +47,58 @@ class EntradaController extends Controller {
 	 * @todo Refatorar de modo que a função não ultrapasse 20 linhas (boa prática de programação)
 	 */
 	public function actionCreate() {
-		$searchModel = new EntradaProduto();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		return (Yii::$app->request->post()) ? $this->insereDados(Yii::$app->request->post()) : $this->renderiza();
+	}
 
+	/**
+	 * Insere os dados no banco
+	 * @param object $oDados
+	 * @return void
+	 */
+	private function insereDados($oDados) {
+		$aErrosProdutoEntrada = [];
+		$bErroEntrada = false;
 
-		if((Yii::$app->request->post())) {
-			$aErrosProdutoEntrada = [];
-			$aErrosEntrada = [];
-			$aErrosLote = [];
-			
-			$oDados         = Yii::$app->request->post();
+		$oEntrada = new Entrada();
+		$oEntrada->setNextId();
+		$oEntrada->setAttributes($oDados['Entrada']);
+
+		if($oEntrada->save()) {
 			$aDadosProdutos = json_decode($oDados['produtos']);
 
 			foreach($aDadosProdutos as $oProduto) {
-				$oLote = new LoteEntrada();
-				$oLote->setNextId();
-				$oLote->setAttributes(['lote_validade' => $oProduto->validade, 'lote_descricao' => $oProduto->lote]);
-	
-				if($oLote->save()) {
-					$oEntrada = new Entrada();
-					$oEntrada->setNextId();
-					$oEntrada->setAttributes($oDados['Entrada']);
+				$oEntradaProduto = new EntradaProduto();
+				$oEntradaProduto->setNextId();
+				$oEntradaProduto->setAttributes((array) $oProduto);
+				$oEntradaProduto->setAttribute('entr_sequencial', $oEntrada->getAttribute('entr_sequencial'));
 
-					if($oEntrada->save()) {
-						$aErrosProdutoEntrada = false;
-
-						$oEntradaProduto = new EntradaProduto();
-						$oEntradaProduto->setNextId();
-						$oEntradaProduto->setAttributes(['lote_sequencial'=>$oLote->getAttribute('lote_sequencial'),
-							'entr_sequencial'=>$oEntrada->getAttribute('entr_sequencial'),
-							'entr_prod_quantidade'=>$oProduto->quantidade,
-							'prod_codigo'=>$oProduto->produto
-						]);
-
-						if($oEntradaProduto->save()) {
-							return $this->render('create', [
-									'searchModel'=>$searchModel,
-									'dataProvider'=>$dataProvider
-							]);
-						}
-						else {
-							$aErrosProdutoEntrada[] = $oEntradaProduto->getErrors();
-							$bErro = true;
-						}
-					}
-					else {
-						$aErrosEntrada[] = $oEntrada->getErrors();
-						$bErro = true;
-					}
+				if(!$oEntradaProduto->save()) {
+					$aErrosProdutoEntrada[] = $oEntradaProduto->getErrors();
 				}
-				else {
-					$aErrosLote[] = $oLote->getErrors();
-					$bErro = true;
-				}
-			}
-			
-			if($bErro){
-				var_dump($aErrosProdutoEntrada);
-				var_dump($aErrosEntrada);
-				var_dump($aErrosLote);
 			}
 		}
 		else {
-			return $this->render('create', [
-					'searchModel'=>$searchModel,
-					'dataProvider'=>$dataProvider
-			]);
+			$bErroEntrada = $oEntrada->getErrors();
 		}
+
+		if($bErroEntrada || count($aErrosProdutoEntrada) > 0) {
+			var_dump($aErrosProdutoEntrada);
+			var_dump($bErroEntrada);
+		}
+		else {
+			return $this->renderiza();
+		}
+	}
+
+	/**
+	 * Renderiza a tela de create
+	 * @return void
+	 */
+	private function renderiza() {
+		$searchModel = new EntradaProduto();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+		return $this->render('create', ['searchModel' => $searchModel, 'dataProvider' => $dataProvider]);
 	}
 
 }

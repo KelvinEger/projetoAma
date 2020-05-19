@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 $this->title = 'Menu Principal - Projeto AMA';
+
 ?>
 <style>
 	h3{
@@ -19,7 +20,6 @@ $this->title = 'Menu Principal - Projeto AMA';
 	<canvas id="myChart" width="400" height="150">
 		<p>Hello Fallback World</p>
 	</canvas>
-
 
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>

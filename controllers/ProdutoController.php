@@ -66,7 +66,7 @@ class ProdutoController extends Controller {
 			$oModelProduto->setAttribute('prod_codigo', $this->getMaxProduto()['id'] + 1); // Incrementando manualmente
 			
 			if ($oModelProduto->save()) {
-				return $this->redirect(['view', 'id' => $oModelProduto->prod_codigo]);
+				return $this->redirect(['index']);
 			} 
 			else {
 				echo var_dump($oModelProduto->getErrors());

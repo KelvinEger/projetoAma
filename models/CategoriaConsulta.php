@@ -9,13 +9,12 @@ use app\models\Categoria;
 /**
  * CategoriaConsulta represents the model behind the search form of `app\models\Categoria`.
  */
-class CategoriaConsulta extends Categoria
-{
+class CategoriaConsulta extends Categoria {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['cate_codigo'], 'integer'],
             [['cate_descricao'], 'date'],
@@ -25,8 +24,7 @@ class CategoriaConsulta extends Categoria
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,8 +36,7 @@ class CategoriaConsulta extends Categoria
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Categoria::find();
 
         // add conditions that should always apply here
@@ -65,4 +62,5 @@ class CategoriaConsulta extends Categoria
 
         return $dataProvider;
     }
+
 }

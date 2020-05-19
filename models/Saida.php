@@ -33,7 +33,7 @@ class Saida extends ActiveRecord {
 		return [
 			[['said_sequencial'], 'required'],
 			[['said_sequencial', 'tipo_said_codigo'], 'integer'],
-			[['said_data'], 'date'],
+			[['said_data'], 'safe'],
 			[['said_observacao'], 'string', 'max'=>500],
 			[['said_sequencial'], 'unique'],
 		];

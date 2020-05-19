@@ -17,38 +17,37 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php
-	echo GridView::widget([
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'columns' => [			   
+        'columns' => [
             ['attribute' => 'prod_codigo',
-					'headerOptions' => ['style' => 'width:5%;']
-				],
+                'headerOptions' => ['style' => 'width:5%;']
+            ],
             ['attribute' => 'prod_descricao',
-					'headerOptions' => ['style' => 'width:35%;']
-				],
+                'headerOptions' => ['style' => 'width:35%;']
+            ],
             ['attribute' => 'cate_codigo',
-					'value' => function($oProduto){
-						return ($oProduto->cate_codigo != 0) ? Categoria::findOne($oProduto->cate_codigo)->cate_descricao : 'Não definida'; // retirar quando tratar a questão de não permitir vategorias diferentes de zero
-					},
-					'headerOptions' => ['style' => 'width:15%;']
-				],
+                'value' => function($oProduto) {
+                    return ($oProduto->cate_codigo != 0) ? Categoria::findOne($oProduto->cate_codigo)->cate_descricao : 'Não definida'; // retirar quando tratar a questão de não permitir vategorias diferentes de zero
+                },
+                'headerOptions' => ['style' => 'width:15%;']
+            ],
             ['attribute' => 'situacao',
-					'value' => function($oProduto){
-						return app\models\Produto::NOME_SITUACAO[$oProduto->situacao];		
-					},
-					'headerOptions' => ['style' => 'width:10%;']
-				],
+                'value' => function($oProduto) {
+                    return app\models\Produto::NOME_SITUACAO[$oProduto->situacao];
+                },
+                'headerOptions' => ['style' => 'width:10%;']
+            ],
             ['attribute' => 'prod_quantidade_ideal',
-					'headerOptions' => ['style' => 'width:10%;']
-				],
+                'headerOptions' => ['style' => 'width:10%;']
+            ],
             ['attribute' => 'prod_quantidade_minima',
-					'headerOptions' => ['style' => 'width:10%;']
-				],
+                'headerOptions' => ['style' => 'width:10%;']
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); 
-	
-	?>
+    ]);
+    ?>
 
 </div>
